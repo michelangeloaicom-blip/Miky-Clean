@@ -266,7 +266,7 @@ function render(){
   tbody.innerHTML = filtered.map(([name,cat,price,um])=>{
     const displayPrice = Number.isInteger(price) ? price : price.toFixed(2).replace('.',',');
     return `<tr><td>${name}</td><td><span class="cat-pill">${cat}</span></td><td>${displayPrice} RON</td><td>${um}</td></tr>`;
-  }).join('') || `<tr><td colspan="4" style="text-align:center;padding:22px;color:#64748b">Niciun rezultat pentru căutarea ta. Sună-ne la <a href="tel:+40731679219" style="color:#0d9488;font-weight:700">+40 731 679 219</a></td></tr>`;
+  }).join('') || `<tr><td colspan="3" style="text-align:center;padding:22px;color:#64748b">Niciun rezultat pentru căutarea ta. Sună-ne la <a href="tel:+40731679219" style="color:#0d9488;font-weight:700">+40 731 679 219</a></td></tr>`;
   countEl.textContent = filtered.length;
 }
 
@@ -276,24 +276,84 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
     btn.classList.add('active');
     activeFilter = btn.dataset.filter;
     render();
+    // scroll lista sus la schimbare filtru
+    const sc = document.getElementById('pricesScroll');
+    if(sc) sc.scrollTop = 0;
   });
 });
-searchInput.addEventListener('input', render);
-render();
+const searchClear = document.getElementById('searchClear');
+function updateClearBtn(){
+  if(!searchClear) return;
+  searchClear.classList.toggle('visible', !!searchInput.value);
+}
+searchInput.addEventListener('input', ()=>{ updateClearBtn(); render(); });
+if(searchClear){
+  searchClear.addEventListener('click', ()=>{
+    searchInput.value='';
+    updateClearBtn();
+    render();
+    searchInput.focus();
+  });
+}
+updateClearBtn();
 
-// Hamburger
+// scroll fade for prices
+const pricesScroll = document.getElementById('pricesScroll');
+const pricesWrap = document.getElementById('pricesWrap');
+function updateScrollFade(){
+  if(!pricesScroll || !pricesWrap) return;
+  const atBottom = pricesScroll.scrollTop + pricesScroll.clientHeight >= pricesScroll.scrollHeight - 4;
+  pricesWrap.classList.toggle('at-bottom', atBottom);
+}
+if(pricesScroll){
+  pricesScroll.addEventListener('scroll', updateScrollFade, {passive:true});
+}
+let _renderOrig = render;
+render = function(){
+  _renderOrig.apply(this, arguments);
+  requestAnimationFrame(updateScrollFade);
+};
+render();
+updateScrollFade();
+
+// Hamburger - robust mobile fix
 const ham = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
-ham.addEventListener('click',()=>{
-  const open = nav.classList.toggle('open');
-  ham.setAttribute('aria-expanded', open);
-  document.body.style.overflow = open ? 'hidden' : '';
-});
-nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+const overlay = document.getElementById('navOverlay');
+function openNav(){
+  nav.classList.add('open');
+  if(overlay) overlay.classList.add('open');
+  ham.setAttribute('aria-expanded','true');
+  document.body.classList.add('nav-open');
+  if(overlay) overlay.setAttribute('aria-hidden','false');
+}
+function closeNav(){
   nav.classList.remove('open');
+  if(overlay) overlay.classList.remove('open');
   ham.setAttribute('aria-expanded','false');
-  document.body.style.overflow='';
-}));
+  document.body.classList.remove('nav-open');
+  if(overlay) overlay.setAttribute('aria-hidden','true');
+}
+function toggleNav(){
+  if(nav.classList.contains('open')) closeNav(); else openNav();
+}
+ham.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleNav();
+});
+if(overlay) overlay.addEventListener('click', closeNav);
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeNav));
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='Escape' && nav.classList.contains('open')) closeNav();
+});
+// inchide la resize spre desktop
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 900 && nav.classList.contains('open')) closeNav();
+});
+// prevent nav scroll from propagating to body
+if(nav){
+  nav.addEventListener('touchmove', (e)=>{ e.stopPropagation(); }, {passive:true});
+}
 
 // Header shadow on scroll
 const header = document.getElementById('header');

@@ -101,6 +101,7 @@
     </button>
   </div>
 </header>
+<div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
 
 <!-- HERO -->
 <section class="hero" id="acasa">
@@ -244,8 +245,10 @@
     <div class="prices-toolbar">
       <div class="search-wrap">
         <span class="search-icon">🔍</span>
-        <input type="search" id="priceSearch" placeholder="Caută serviciu... ex: rochie, covor, cămașă" aria-label="Caută în lista de prețuri">
+        <input type="search" id="priceSearch" placeholder="Caută serviciu... ex: rochie, covor, cămașă" aria-label="Caută în lista de prețuri" autocomplete="off">
+        <button type="button" class="search-clear" id="searchClear" aria-label="Șterge căutarea">×</button>
       </div>
+      <div class="search-hint">💡 <strong>Sfat:</strong> scrie ce cauți (ex. <em>rochie mireasă</em>, <em>geacă piele</em>, <em>perdele</em>) — lista se filtrează instant.</div>
       <div class="filter-wrap" id="filterWrap">
         <button class="filter-btn active" data-filter="toate">Toate</button>
         <button class="filter-btn" data-filter="curatatorie">Curățătorie</button>
@@ -263,15 +266,17 @@
 
     <div class="prices-count"><span id="pricesCount">—</span> servicii găsite</div>
 
-    <div class="prices-table-wrap">
-      <table class="prices-table" id="pricesTable">
-        <thead>
-          <tr><th>Serviciu</th><th>Categorie</th><th>Preț</th><th>UM</th></tr>
-        </thead>
-        <tbody id="pricesBody">
-          <!-- Populated by JS -->
-        </tbody>
-      </table>
+    <div class="prices-table-wrap" id="pricesWrap">
+      <div class="prices-table-scroll" id="pricesScroll">
+        <table class="prices-table" id="pricesTable">
+          <thead>
+            <tr><th>Serviciu</th><th>Categorie</th><th>Preț</th><th>UM</th></tr>
+          </thead>
+          <tbody id="pricesBody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="prices-cta">
