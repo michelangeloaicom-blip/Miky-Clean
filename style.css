@@ -316,5 +316,22 @@ img{display:block;max-width:100%}
 html,body{max-width:100%;overflow-x:hidden}
 img,iframe,table{max-width:100%}
 
+/* Preturi ascunse temporar - ramane in cod */
+#preturi{display:none !important}
+.nav a[href="#preturi"], .footer-col a[href="#preturi"]{display:none !important}
+
+/* Wet cleaning banner */
+.wet-banner{background:linear-gradient(135deg,#ecfdf5 0%, #ccfbf1 100%);border-bottom:1.5px solid #99f6e4;padding:16px 0}
+.wet-banner-inner{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.wet-banner-icon{width:44px;height:44px;background:#fff;border:1.5px solid #99f6e4;border-radius:12px;display:grid;place-items:center;font-size:1.35rem;flex-shrink:0;box-shadow:var(--shadow)}
+.wet-banner-text{display:flex;flex-direction:column;gap:2px;flex:1;min-width:240px}
+.wet-banner-text strong{color:var(--navy);font-size:.96rem}
+.wet-banner-text span{color:var(--text);font-size:.88rem;line-height:1.4}
+.wet-banner-cta{flex-shrink:0}
+@media(max-width:640px){.wet-banner-inner{gap:12px}.wet-banner-text strong{font-size:.92rem}.wet-banner-text span{font-size:.84rem}}
+.wet-note{display:flex;gap:10px;align-items:flex-start;background:#fef3c7;border:1.5px solid #fde68a;border-radius:12px;padding:12px 14px;margin:14px 0;font-size:.92rem;line-height:1.5;color:#92400e}
+.wet-note-icon{font-size:1.15rem;flex-shrink:0;margin-top:1px}
+.wet-note strong{color:#92400e}
+
 /* Utilities */
 .hidden{display:none !important}
