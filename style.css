@@ -162,6 +162,10 @@ img{display:block;max-width:100%}
 .service-card p{font-size:.92rem;color:var(--text-light);flex:1}
 .service-link{font-weight:700;color:var(--primary-dark);font-size:.9rem;margin-top:4px}
 .service-link:hover{color:var(--navy)}
+.service-card--unavailable{opacity:.92;position:relative}
+.service-card--unavailable .service-icon{opacity:.6}
+.service-badge{display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#b91c1c;border:1.5px solid #fecaca;padding:5px 10px;border-radius:999px;font-size:.78rem;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.service-card--unavailable p strong{color:#b91c1c}
 
 /* PRICES */
 .prices-toolbar{display:flex;flex-direction:column;gap:14px;margin-bottom:12px}
@@ -316,9 +320,7 @@ img{display:block;max-width:100%}
 html,body{max-width:100%;overflow-x:hidden}
 img,iframe,table{max-width:100%}
 
-/* Preturi ascunse temporar - ramane in cod */
-#preturi{display:none !important}
-.nav a[href="#preturi"], .footer-col a[href="#preturi"]{display:none !important}
+/* Prețuri vizibile */
 
 /* Wet cleaning banner */
 .wet-banner{background:linear-gradient(135deg,#ecfdf5 0%, #ccfbf1 100%);border-bottom:1.5px solid #99f6e4;padding:16px 0}
